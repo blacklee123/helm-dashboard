@@ -16,7 +16,7 @@ export function useGetInstalledReleases(
 ) {
   return useQuery<Release[]>(
     ["installedReleases", context],
-    () => apiService.fetchWithDefaults<Release[]>("/api/helm/releases"),
+    () => apiService.fetchWithDefaults<Release[]>("./api/helm/releases"),
     options
   );
 }
@@ -66,7 +66,7 @@ export function useGetReleaseManifest({
     ["manifest", namespace, chartName],
     () =>
       apiService.fetchWithDefaults<ReleaseManifest[]>(
-        `/api/helm/releases/${namespace}/${chartName}/manifests`
+        `./api/helm/releases/${namespace}/${chartName}/manifests`
       ),
     options
   );
@@ -82,7 +82,7 @@ export function useGetResources(
     ["resources", ns, name],
     () =>
       apiService.fetchWithDefaults<StructuredResources[]>(
-        `/api/helm/releases/${ns}/${name}/resources?health=true`
+        `./api/helm/releases/${ns}/${name}/resources?health=true`
       ),
     options
   );
@@ -119,7 +119,7 @@ export function useGetResourceDescription(
     ["describe", type, ns, name],
     () =>
       apiService.fetchWithDefaults<string>(
-        `/api/k8s/${type}/describe?name=${name}&namespace=${ns}`,
+        `./api/k8s/${type}/describe?name=${name}&namespace=${ns}`,
         {
           headers: { "Content-Type": "text/plain; charset=utf-8" },
         }
@@ -135,7 +135,7 @@ export function useGetLatestVersion(
     ["latestver", chartName],
     () =>
       apiService.fetchWithDefaults<ChartVersion[]>(
-        `/api/helm/repositories/latestver?name=${chartName}`
+        `./api/helm/repositories/latestver?name=${chartName}`
       ),
     options
   );
@@ -148,7 +148,7 @@ export function useGetVersions(
     ["versions", chartName],
     () =>
       apiService.fetchWithDefaults<LatestChartVersion[]>(
-        `/api/helm/repositories/versions?name=${chartName}`
+        `./api/helm/repositories/versions?name=${chartName}`
       ),
     options
   );
@@ -164,7 +164,7 @@ export function useGetReleaseInfoByType(
     [tab, namespace, chart, revision, additionalParams],
     () =>
       apiService.fetchWithDefaults<string>(
-        `/api/helm/releases/${namespace}/${chart}/${tab}?revision=${revision}${additionalParams}`,
+        `./api/helm/releases/${namespace}/${chart}/${tab}?revision=${revision}${additionalParams}`,
         {
           headers: { "Content-Type": "text/plain; charset=utf-8" },
         }
@@ -180,7 +180,7 @@ export function useGetDiff(
   return useQuery<string>(
     ["diff", formData],
     () => {
-      return apiService.fetchWithDefaults<string>("/diff", {
+      return apiService.fetchWithDefaults<string>("./diff", {
         body: formData,
 
         method: "POST",
@@ -207,7 +207,7 @@ export function useRollbackRelease(
     formData.append("revision", revision.toString());
 
     return apiService.fetchWithDefaults<void>(
-      `/api/helm/releases/${ns}/${name}/rollback`,
+      `./api/helm/releases/${ns}/${name}/rollback`,
       {
         method: "POST",
         body: formData,
@@ -252,7 +252,7 @@ export function useChartReleaseValues({
     ["values", namespace, release, userDefinedValue, version],
     () =>
       apiService.fetchWithDefaults<unknown>(
-        `/api/helm/releases/${namespace}/${release}/values?${"userDefined=true"}${
+        `./api/helm/releases/${namespace}/${release}/values?${"userDefined=true"}${
           revision ? `&revision=${revision}` : ""
         }`,
         {
@@ -302,8 +302,8 @@ export const useVersionData = ({
       });
 
       const fetchUrl = isInstallRepoChart
-        ? `/api/helm/releases/${namespace || "default"}`
-        : `/api/helm/releases/${
+        ? `./api/helm/releases/${namespace || "default"}`
+        : `./api/helm/releases/${
             namespace ? namespace : "[empty]"
           }${`/${releaseName}`}`;
 

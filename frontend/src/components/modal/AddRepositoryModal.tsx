@@ -45,7 +45,7 @@ function AddRepositoryModal({ isOpen, onClose }: AddRepositoryModalProps) {
     setIsLoading(true);
 
     apiService
-      .fetchWithDefaults<void>("/api/helm/repositories", {
+      .fetchWithDefaults<void>("./api/helm/repositories", {
         method: "POST",
         body,
       })

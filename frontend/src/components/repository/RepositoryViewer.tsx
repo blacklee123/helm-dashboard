@@ -48,7 +48,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
         setIsRemove(true);
         const repo = repository?.name || "";
         await apiService.fetchWithDefaults<void>(
-          `/api/helm/repositories/${repo}`,
+          `./api/helm/repositories/${repo}`,
           {
             method: "DELETE",
           }

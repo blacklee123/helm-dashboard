@@ -151,7 +151,7 @@ export const InstallReleaseChartModal = ({
       formData.append("values", userValues || releaseValues || ""); // if userValues is empty, we use the release values
 
       const data = await apiService.fetchWithDefaults(
-        `/api/helm/releases/${
+        `./api/helm/releases/${
           namespace ? namespace : "default"
         }${`/${releaseName}`}`,
         {

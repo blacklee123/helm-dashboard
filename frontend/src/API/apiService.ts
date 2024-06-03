@@ -55,36 +55,36 @@ class ApiService {
   }
 
   getToolVersion = async () => {
-    const response = await fetch("/status");
+    const response = await fetch("./status");
     const data = await response.json();
     return data;
   };
 
   getRepositoryLatestVersion = async (repositoryName: string) => {
     const data = await this.fetchWithDefaults(
-      `/api/helm/repositories/latestver?name=${repositoryName}`
+      `./api/helm/repositories/latestver?name=${repositoryName}`
     );
     return data;
   };
 
   getInstalledReleases = async () => {
-    const data = await this.fetchWithDefaults("/api/helm/releases");
+    const data = await this.fetchWithDefaults("./api/helm/releases");
     return data;
   };
 
   getClusters = async () => {
-    const response = await fetch("/api/k8s/contexts");
+    const response = await fetch("./api/k8s/contexts");
     const data = (await response.json()) as ClustersResponse[];
     return data;
   };
 
   getNamespaces = async () => {
-    const data = await this.fetchWithDefaults("/api/k8s/namespaces/list");
+    const data = await this.fetchWithDefaults("./api/k8s/namespaces/list");
     return data;
   };
 
   getRepositories = async () => {
-    const data = await this.fetchWithDefaults("/api/helm/repositories");
+    const data = await this.fetchWithDefaults("./api/helm/repositories");
     return data;
   };
 
@@ -93,7 +93,7 @@ class ApiService {
   }: QueryFunctionContext<Chart[], Repository>) => {
     const [, repository] = queryKey;
     const data = await this.fetchWithDefaults(
-      `/api/helm/repositories/${repository}`
+      `./api/helm/repositories/${repository}`
     );
     return data;
   };
@@ -104,7 +104,7 @@ class ApiService {
     const [, chart] = queryKey;
 
     const data = await this.fetchWithDefaults(
-      `/api/helm/repositories/versions?name=${chart.name}`
+      `./api/helm/repositories/versions?name=${chart.name}`
     );
     return data;
   };
@@ -119,7 +119,7 @@ class ApiService {
     const data = await this.fetchWithDefaults<
       Promise<ReleaseHealthStatus[] | null>
     >(
-      `/api/helm/releases/${release.namespace}/${release.name}/resources?health=true`
+      `./api/helm/releases/${release.namespace}/${release.name}/resources?health=true`
     );
     return data;
   };
@@ -132,7 +132,7 @@ class ApiService {
     if (!params.namespace || !params.chart) return [];
 
     const data = await this.fetchWithDefaults<ReleaseRevision[]>(
-      `/api/helm/releases/${params.namespace}/${params.chart}/history`
+      `./api/helm/releases/${params.namespace}/${params.chart}/history`
     );
 
     return data;
@@ -152,7 +152,7 @@ class ApiService {
     if (!namespace || !chart || !chart.name || version === undefined)
       return Promise.reject(new Error("missing parameters"));
 
-    const url = `/api/helm/repositories/values?chart=${namespace}/${chart.name}&version=${version}`;
+    const url = `./api/helm/repositories/values?chart=${namespace}/${chart.name}&version=${version}`;
     const data = await this.fetchWithDefaults(url);
 
     return data;

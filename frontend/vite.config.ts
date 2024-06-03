@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
   const port = env.VITE_SERVER_PORT || 8080;
   return {
+    base: './',
     plugins: [
       react(),
       viteStaticCopy({
@@ -31,6 +32,8 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
     },
     server: {
+      host: '127.0.0.1',
+      port: 3000,
       proxy: {
         "^/api/.*": `http://127.0.0.1:${port}`,
         "^/status*": `http://127.0.0.1:${port}`,

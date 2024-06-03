@@ -462,7 +462,7 @@ const Uninstall = () => {
     ["uninstall", namespace, chart],
     () =>
       apiService.fetchWithDefaults(
-        "/api/helm/releases/" + namespace + "/" + chart,
+        "./api/helm/releases/" + namespace + "/" + chart,
         {
           method: "delete",
         }

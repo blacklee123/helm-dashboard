@@ -1,0 +1,16 @@
+version: "3"
+services:
+  helm-dashboard:
+    image: blacklee123/helm-dashboard:latest
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ~/.kube/config:/root/.kube/config
+      - ~/.cache/helm:/root/.cache/helm
+      - ~/.config/helm:/root/.config/helm
+      - ~/.local/share/helm:/root/.local/share/helm
+      # - ~/.kube/config:/root/.kube/config
+      # - ~/Library/Caches/helm:/root/.cache/helm
+      # - ~/Library/Preferences/helm:/root/.config/helm
+      # - ~/Library/helm:/root/.local/share/helm

@@ -14,7 +14,7 @@ export function useGetRepositories(
   return useQuery<HelmRepositories>(
     ["helm", "repositories"],
     () =>
-      apiService.fetchWithDefaults<HelmRepositories>("/api/helm/repositories"),
+      apiService.fetchWithDefaults<HelmRepositories>("./api/helm/repositories"),
     options
   );
 }
@@ -26,7 +26,7 @@ export function useUpdateRepo(
 ) {
   return useMutation<void, unknown, void>(() => {
     return apiService.fetchWithDefaults<void>(
-      `/api/helm/repositories/${repo}`,
+      `./api/helm/repositories/${repo}`,
       {
         method: "POST",
       }
@@ -41,7 +41,7 @@ export function useDeleteRepo(
 ) {
   return useMutation<void, unknown, void>(() => {
     return apiService.fetchWithDefaults<void>(
-      `/api/helm/repositories/${repo}`,
+      `./api/helm/repositories/${repo}`,
       {
         method: "DELETE",
       }
@@ -60,7 +60,7 @@ export function useChartRepoValues({
     ["helm", "repositories", "values", chart, version],
     () =>
       apiService.fetchWithDefaults<string>(
-        `/api/helm/repositories/values?chart=${chart}&version=${version}`,
+        `./api/helm/repositories/values?chart=${chart}&version=${version}`,
         {
           headers: { "Content-Type": "text/plain; charset=utf-8" },
         }

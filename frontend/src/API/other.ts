@@ -13,7 +13,7 @@ export function useShutdownHelmDashboard(
 ) {
   return useMutation<void, Error>(
     () =>
-      apiService.fetchWithDefaults("/", {
+      apiService.fetchWithDefaults("./", {
         method: "DELETE",
       }),
     options
@@ -26,7 +26,7 @@ export function useGetApplicationStatus(
 ) {
   return useQuery<ApplicationStatus>(
     ["status"],
-    () => apiService.fetchWithDefaults<ApplicationStatus>("/status"),
+    () => apiService.fetchWithDefaults<ApplicationStatus>("./status"),
     {
       ...options,
     }

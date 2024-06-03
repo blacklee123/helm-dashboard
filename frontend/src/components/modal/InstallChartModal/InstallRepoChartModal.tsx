@@ -131,7 +131,7 @@ export const InstallRepoChartModal = ({
       formData.append("values", userValues);
       formData.append("name", releaseName || "");
       const data = await apiService.fetchWithDefaults(
-        `/api/helm/releases/${namespace ? namespace : "default"}`,
+        `./api/helm/releases/${namespace ? namespace : "default"}`,
         {
           method: "post",
           body: formData,

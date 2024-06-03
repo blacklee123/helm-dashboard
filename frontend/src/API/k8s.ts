@@ -7,7 +7,7 @@ import apiService from "./apiService";
 function useGetKubectlContexts(options?: UseQueryOptions<KubectlContexts>) {
   return useQuery<KubectlContexts>(
     ["k8s", "contexts"],
-    () => apiService.fetchWithDefaults<KubectlContexts>("/api/k8s/contexts"),
+    () => apiService.fetchWithDefaults<KubectlContexts>("./api/k8s/contexts"),
     options
   );
 }
@@ -23,7 +23,7 @@ function useGetK8sResource(
     ["k8s", kind, "get", name, namespace],
     () =>
       apiService.fetchWithDefaults<K8sResource>(
-        `/api/k8s/${kind}/get?name=${name}&namespace=${namespace}`
+        `./api/k8s/${kind}/get?name=${name}&namespace=${namespace}`
       ),
     options
   );
@@ -37,7 +37,7 @@ function useGetK8sResourceList(
   return useQuery<K8sResourceList>(
     ["k8s", kind, "list"],
     () =>
-      apiService.fetchWithDefaults<K8sResourceList>(`/api/k8s/${kind}/list`),
+      apiService.fetchWithDefaults<K8sResourceList>(`./api/k8s/${kind}/list`),
     options
   );
 }
@@ -53,7 +53,7 @@ function useGetK8sResourceDescribe(
     ["k8s", kind, "describe", name, namespace],
     () =>
       apiService.fetchWithDefaults<string>(
-        `/api/k8s/${kind}/describe?name=${name}&namespace=${namespace}`,
+        `./api/k8s/${kind}/describe?name=${name}&namespace=${namespace}`,
         {
           headers: {
             Accept: "text/plain",

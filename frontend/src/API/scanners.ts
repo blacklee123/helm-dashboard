@@ -14,7 +14,7 @@ import apiService from "./apiService";
 function useGetDiscoveredScanners(options?: UseQueryOptions<ScannersList>) {
   return useQuery<ScannersList>(
     ["scanners"],
-    () => apiService.fetchWithDefaults<ScannersList>("/api/scanners"),
+    () => apiService.fetchWithDefaults<ScannersList>("./api/scanners"),
     options
   );
 }
@@ -28,7 +28,7 @@ function useScanManifests(
   formData.append("manifest", manifest);
   return useMutation<ScanResults, Error, string>(
     () =>
-      apiService.fetchWithDefaults<ScanResults>("/api/scanners/manifests", {
+      apiService.fetchWithDefaults<ScanResults>("./api/scanners/manifests", {
         method: "POST",
         body: formData,
       }),
@@ -47,7 +47,7 @@ function useScanK8sResource(
     ["scanners", "resource", kind, namespace, name],
     () =>
       apiService.fetchWithDefaults<ScanResults>(
-        `/api/scanners/resource/${kind}?namespace=${namespace}&name=${name}`
+        `./api/scanners/resource/${kind}?namespace=${namespace}&name=${name}`
       ),
     options
   );

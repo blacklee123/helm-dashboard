@@ -50,7 +50,7 @@ export const useDiffData = ({
       formData.append("a", currentVerManifest);
       formData.append("b", selectedVerData.manifest);
 
-      const diff = await apiService.fetchWithDefaults("/diff", {
+      const diff = await apiService.fetchWithDefaults("./diff", {
         method: "post",
         body: formData,
       });

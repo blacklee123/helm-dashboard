@@ -1,6 +1,9 @@
+TAG?=1.3.4
+NAME:=helm-dashboard
+DOCKER_REPOSITORY:=blacklee123
+DOCKER_IMAGE_NAME:=$(DOCKER_REPOSITORY)/$(NAME)
 DATE    ?= $(shell date +%FT%T%z)
-VERSION ?= $(shell git describe --tags --always --dirty --match=v* 2> /dev/null || \
-			cat $(CURDIR)/.version 2> /dev/null || echo "v0")
+VERSION:=$(shell grep 'VERSION' pkg/version/version.go | awk '{ print $$4 }' | tr -d '"')
 
 .PHONY: test
 test: ; $(info $(M) start unit testing...) @
@@ -19,6 +22,12 @@ build_go: $(BIN) ; $(info $(M) Building GO...) @ ## Build program binary
 		-ldflags '-X main.version=$(VERSION) -X main.buildDate=$(DATE)' \
 		-o bin/dashboard .
 
+.PHONY: build_go_linux
+build_go_linux: $(BIN) ; $(info $(M) Building GO...) @ ## Build program binary
+	GOOS=linux GOARCH=amd64 go build \
+		-ldflags '-X main.version=$(VERSION) -X main.buildDate=$(DATE)' \
+		-o bin/dashboard .
+
 .PHONY: build_ui
 build_ui: $(BIN) ; $(info $(M) Building UI...) @ ## Build program binary
 	cd frontend && npm i && npm run build && cd ..
@@ -29,3 +38,15 @@ build: build_ui build_go ; $(info $(M) Building executable...) @ ## Build progra
 .PHONY: debug
 debug: ; $(info $(M) Running dashboard in debug mode...) @
 	@DEBUG=1 ./bin/dashboard
+
+build-container:
+	docker buildx build \
+	--platform=linux/amd64 \
+	-t $(DOCKER_IMAGE_NAME):$(VERSION) \
+	--load \
+	-f Dockerfile .
+
+push-container:
+	docker tag $(DOCKER_IMAGE_NAME):$(VERSION) $(DOCKER_IMAGE_NAME):latest
+	docker push $(DOCKER_IMAGE_NAME):$(VERSION)
+	docker push $(DOCKER_IMAGE_NAME):latest
