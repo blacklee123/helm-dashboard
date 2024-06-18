@@ -1,13 +1,13 @@
-import hljs from "highlight.js";
-import Spinner from "../../Spinner";
+import hljs from 'highlight.js'
+import Spinner from '../../Spinner'
 
-export const ChartValues = ({
+export function ChartValues({
   chartValues,
   loading,
 }: {
-  chartValues: string;
-  loading: boolean;
-}) => {
+  chartValues: string
+  loading: boolean
+}) {
   return (
     <div className="w-1/2">
       <label
@@ -22,18 +22,22 @@ export const ChartValues = ({
           chartValues && !loading
             ? {
                 __html: hljs.highlight(chartValues, {
-                  language: "yaml",
+                  language: 'yaml',
                 }).value,
               }
             : undefined
         }
       >
-        {loading ? (
-          <Spinner />
-        ) : !chartValues && !loading ? (
-          "No original values information found"
-        ) : null}
+        {loading
+          ? (
+            <Spinner />
+            )
+          : !chartValues && !loading
+              ? (
+                  'No original values information found'
+                )
+              : null}
       </pre>
     </div>
-  );
-};
+  )
+}

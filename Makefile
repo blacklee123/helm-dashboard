@@ -50,3 +50,5 @@ push-container:
 	docker tag $(DOCKER_IMAGE_NAME):$(VERSION) $(DOCKER_IMAGE_NAME):latest
 	docker push $(DOCKER_IMAGE_NAME):$(VERSION)
 	docker push $(DOCKER_IMAGE_NAME):latest
+	docker tag $(DOCKER_IMAGE_NAME):$(VERSION) yhcr.pandadastudio.com/qa-prod/$(DOCKER_IMAGE_NAME):$(VERSION)
+	docker push yhcr.pandadastudio.com/qa-prod/$(DOCKER_IMAGE_NAME):$(VERSION)

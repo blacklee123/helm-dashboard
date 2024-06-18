@@ -1,18 +1,18 @@
-import { BsPower } from "react-icons/bs";
+import { BsPower } from 'react-icons/bs'
 
-import Modal from "./modal/Modal";
-import { useShutdownHelmDashboard } from "../API/other";
+import { useShutdownHelmDashboard } from '../API/other'
+import Modal from './modal/Modal'
 
 function ShutDownButton() {
-  const { mutate: signOut, status } = useShutdownHelmDashboard();
+  const { mutate: signOut, status } = useShutdownHelmDashboard()
 
   const handleClick = async () => {
-    signOut();
-  };
+    signOut()
+  }
 
   return (
     <div className="w-full">
-      <Modal title="Session Ended" isOpen={status === "success"}>
+      <Modal title="Session Ended" isOpen={status === 'success'}>
         <p>
           The Helm Dashboard application has been shut down. You can now close
           the browser tab.
@@ -27,7 +27,7 @@ function ShutDownButton() {
         <BsPower className="w-6" />
       </button>
     </div>
-  );
+  )
 }
 
-export default ShutDownButton;
+export default ShutDownButton

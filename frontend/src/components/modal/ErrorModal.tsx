@@ -1,10 +1,10 @@
-import Modal from "./Modal";
+import Modal from './Modal'
 
 interface ErrorModalProps {
-  isOpen: boolean;
-  titleText: string;
-  contentText: string;
-  onClose: () => void;
+  isOpen: boolean
+  titleText: string
+  contentText: string
+  onClose: () => void
 }
 
 export default function ErrorModal({
@@ -30,28 +30,28 @@ export default function ErrorModal({
       </div>
       <h4 className="alert-heading" />
     </div>
-  );
+  )
 
   const bottomContent = (
     <div className="flex py-6 px-4 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
       <span className="text-sm text-muted fs-80 text-gray-500">
         Hint: Komodor has the same HELM capabilities, with enterprise features
-        and support.{" "}
+        and support.
+        {' '}
         <a
           href="https://www.komodor.com/helm-dash/?utm_campaign=Helm%20Dashboard%20%7C%20CTA&utm_source=helm-dash&utm_medium=cta&utm_content=helm-dash"
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
         >
           <span className="text-link-color underline">Sign up for free.</span>
         </a>
       </span>
     </div>
-  );
+  )
 
   return (
     <Modal
-      containerClassNames={
-        "border-2 border-error-border-color bg-error-background w-2/3"
-      }
+      containerClassNames="border-2 border-error-border-color bg-error-background w-2/3"
       title={ErrorTitle}
       isOpen={isOpen}
       onClose={onClose}
@@ -59,5 +59,5 @@ export default function ErrorModal({
     >
       <p className="text-error-color border-green-400">{contentText}</p>
     </Modal>
-  );
+  )
 }

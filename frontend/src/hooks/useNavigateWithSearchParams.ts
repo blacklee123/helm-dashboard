@@ -3,28 +3,28 @@ import {
   useLocation,
   useNavigate,
   useParams,
-} from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+} from 'react-router-dom'
+import { useAppContext } from '../context/AppContext'
 
-const useNavigateWithSearchParams = () => {
-  const navigate = useNavigate();
-  const { clusterMode } = useAppContext();
-  const { context } = useParams();
+function useNavigateWithSearchParams() {
+  const navigate = useNavigate()
+  const { clusterMode } = useAppContext()
+  const { context } = useParams()
 
-  const { search } = useLocation();
+  const { search } = useLocation()
   const navigateWithSearchParams = (
     url: string,
     ...restArgs: NavigateOptions[]
   ) => {
-    let prefixedUrl = url;
+    let prefixedUrl = url
 
     if (!clusterMode) {
-      prefixedUrl = `/${context}${url}`;
+      prefixedUrl = `/${context}${url}`
     }
-    navigate(`${prefixedUrl}${search}`, ...restArgs);
-  };
+    navigate(`${prefixedUrl}${search}`, ...restArgs)
+  }
 
-  return navigateWithSearchParams;
-};
+  return navigateWithSearchParams
+}
 
-export default useNavigateWithSearchParams;
+export default useNavigateWithSearchParams

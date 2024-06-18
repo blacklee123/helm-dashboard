@@ -6,34 +6,34 @@ import {
   type UseQueryOptions,
   useMutation,
   useQuery,
-} from "@tanstack/react-query";
-import { ScanResult, ScanResults, ScannersList } from "./interfaces";
-import apiService from "./apiService";
+} from '@tanstack/react-query'
+import type { ScanResults, ScannersList } from './interfaces'
+import apiService from './apiService'
 
 // Get list of discovered scanners
 function useGetDiscoveredScanners(options?: UseQueryOptions<ScannersList>) {
   return useQuery<ScannersList>(
-    ["scanners"],
-    () => apiService.fetchWithDefaults<ScannersList>("./api/scanners"),
-    options
-  );
+    ['scanners'],
+    () => apiService.fetchWithDefaults<ScannersList>('./api/scanners'),
+    options,
+  )
 }
 
 // Scan manifests using all applicable scanners
 function useScanManifests(
   manifest: string,
-  options?: UseMutationOptions<ScanResults, Error, string>
+  options?: UseMutationOptions<ScanResults, Error, string>,
 ) {
-  const formData = new FormData();
-  formData.append("manifest", manifest);
+  const formData = new FormData()
+  formData.append('manifest', manifest)
   return useMutation<ScanResults, Error, string>(
     () =>
-      apiService.fetchWithDefaults<ScanResults>("./api/scanners/manifests", {
-        method: "POST",
+      apiService.fetchWithDefaults<ScanResults>('./api/scanners/manifests', {
+        method: 'POST',
         body: formData,
       }),
-    options
-  );
+    options,
+  )
 }
 
 // Scan specified k8s resource in cluster
@@ -41,14 +41,14 @@ function useScanK8sResource(
   kind: string,
   namespace: string,
   name: string,
-  options?: UseQueryOptions<ScanResults>
+  options?: UseQueryOptions<ScanResults>,
 ) {
   return useQuery<ScanResults>(
-    ["scanners", "resource", kind, namespace, name],
+    ['scanners', 'resource', kind, namespace, name],
     () =>
       apiService.fetchWithDefaults<ScanResults>(
-        `./api/scanners/resource/${kind}?namespace=${namespace}&name=${name}`
+        `./api/scanners/resource/${kind}?namespace=${namespace}&name=${name}`,
       ),
-    options
-  );
+    options,
+  )
 }

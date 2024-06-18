@@ -1,26 +1,26 @@
-import { Meta } from "@storybook/react";
+import type { Meta } from '@storybook/react'
 
-import { Header } from "./Header";
+import { Header } from './Header'
 
 const meta = {
-  title: "Example/Header",
+  title: 'Example/Header',
   component: Header,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
-} satisfies Meta<typeof Header>;
+} satisfies Meta<typeof Header>
 
-export default meta;
+export default meta
 
 export const LoggedIn = {
   args: {
     user: {
-      name: "Jane Doe",
+      name: 'Jane Doe',
     },
   },
-};
+}
 
 export const LoggedOut = {
   args: {},
-};
+}

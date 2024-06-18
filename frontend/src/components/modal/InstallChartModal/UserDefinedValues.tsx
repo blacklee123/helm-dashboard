@@ -1,23 +1,23 @@
-import { useEffect, useState } from "react";
-import useDebounce from "../../../hooks/useDebounce";
+import { useEffect, useState } from 'react'
+import useDebounce from '../../../hooks/useDebounce'
 
-export const UserDefinedValues = ({
+export function UserDefinedValues({
   initialValue,
   onValuesChange,
 }: {
-  initialValue: string;
-  onValuesChange: (val: string) => void;
-}) => {
-  const [userDefinedValues, setUserDefinedValues] = useState(initialValue);
-  const debouncedValue = useDebounce<string>(userDefinedValues, 500);
+  initialValue: string
+  onValuesChange: (val: string) => void
+}) {
+  const [userDefinedValues, setUserDefinedValues] = useState(initialValue)
+  const debouncedValue = useDebounce<string>(userDefinedValues, 500)
 
   useEffect(() => {
     if (!debouncedValue || debouncedValue === initialValue) {
-      return;
+      return
     }
 
-    onValuesChange(debouncedValue);
-  }, [debouncedValue, onValuesChange, initialValue]);
+    onValuesChange(debouncedValue)
+  }, [debouncedValue, onValuesChange, initialValue])
 
   return (
     <div className="w-1/2 ">
@@ -30,10 +30,11 @@ export const UserDefinedValues = ({
       <textarea
         value={userDefinedValues}
         defaultValue={initialValue}
-        onChange={(e) => setUserDefinedValues(e.target.value)}
+        onChange={e => setUserDefinedValues(e.target.value)}
         rows={14}
         className="block p-2.5 w-full text-md text-gray-900 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 resize-none font-monospace"
-      ></textarea>
+      >
+      </textarea>
     </div>
-  );
-};
+  )
+}

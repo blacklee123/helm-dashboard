@@ -1,17 +1,17 @@
-import { type ReactElement, cloneElement } from "react";
+import { type ReactElement, cloneElement } from 'react'
 
 export default function Tooltip({
   id,
   title,
   element,
 }: {
-  title: string;
-  id: string;
-  element: ReactElement;
+  title: string
+  id: string
+  element: ReactElement
 }) {
   return (
     <>
-      {cloneElement(element, { "data-tooltip-target": id })}
+      {cloneElement(element, { 'data-tooltip-target': id })}
       <div
         id={id}
         role="tooltip"
@@ -37,5 +37,5 @@ export default function Tooltip({
         <div className="tooltip-arrow" data-popper-arrow></div>
       </div>
     </>
-  );
+  )
 }

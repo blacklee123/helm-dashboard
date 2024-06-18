@@ -1,10 +1,8 @@
-import { defineConfig, loadEnv } from "vite";
-import react from "@vitejs/plugin-react";
-import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "");
-  const port = env.VITE_SERVER_PORT || 8080;
+export default defineConfig(() => {
   return {
     base: './',
     plugins: [
@@ -13,33 +11,33 @@ export default defineConfig(({ mode }) => {
         targets: [
           {
             src: 'public/analytics.js',
-            dest: "assets/",
+            dest: 'assets/',
           },
           {
             src: 'public/openapi.json',
-            dest: "assets/",
+            dest: 'assets/',
           },
           {
             src: 'public/logo.svg',
-            dest: "assets/",
+            dest: 'assets/',
           },
-        ]
-      })
+        ],
+      }),
     ],
     build: {
-      assetsDir: "./assets/",
-      outDir: "../pkg/frontend/dist",
+      assetsDir: './assets/',
+      outDir: '../pkg/frontend/dist',
       emptyOutDir: true,
     },
     server: {
       host: '127.0.0.1',
       port: 3000,
       proxy: {
-        "^/api/.*": `http://127.0.0.1:${port}`,
-        "^/status*": `http://127.0.0.1:${port}`,
-        "^/diff*": `http://127.0.0.1:${port}`,
-        "^/static*": `http://127.0.0.1:${port}`,
+        '^/api/.*': `http://127.0.0.1:8080`,
+        '^/status*': `http://127.0.0.1:8080`,
+        '^/diff*': `http://127.0.0.1:8080`,
+        '^/static*': `http://127.0.0.1:8080`,
       },
     },
-  };
-});
+  }
+})

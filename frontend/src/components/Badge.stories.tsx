@@ -14,26 +14,26 @@
  * @see https://storybook.js.org/docs/react/writing-stories/introduction
  */
 
-import { Meta } from "@storybook/react";
-import Badge from "./Badge";
+import type { Meta } from '@storybook/react'
+import Badge from './Badge'
 
 // We set the metadata for the story.
 // Refer to https://storybook.js.org/docs/react/writing-stories/introduction
 // for more information.
 const meta = {
-  title: "Badge",
+  title: 'Badge',
   component: Badge,
   args: {
-    type: "success",
-    children: "Success",
+    type: 'success',
+    children: 'Success',
   },
-} satisfies Meta<typeof Badge>;
+} satisfies Meta<typeof Badge>
 
-export default meta;
+export default meta
 
 export const Default = {
   args: {
-    type: "success",
-    children: "Success",
+    type: 'success',
+    children: 'Success',
   },
-};
+}

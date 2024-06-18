@@ -1,21 +1,21 @@
-import { useState } from "react";
-import { Chart } from "../../data/types";
-import { InstallRepoChartModal } from "../modal/InstallChartModal/InstallRepoChartModal";
+import { useState } from 'react'
+import type { Chart } from '../../data/types'
+import { InstallRepoChartModal } from '../modal/InstallChartModal/InstallRepoChartModal'
 
-type ChartViewerProps = {
-  chart: Chart;
-};
+interface ChartViewerProps {
+  chart: Chart
+}
 
 function ChartViewer({ chart }: ChartViewerProps) {
-  const [showInstallButton, setShowInstallButton] = useState(false);
-  const [showInstallModal, setShowInstallModal] = useState(false);
+  const [showInstallButton, setShowInstallButton] = useState(false)
+  const [showInstallModal, setShowInstallModal] = useState(false)
 
   const handleMouseOver = () => {
-    setShowInstallButton(true);
-  };
+    setShowInstallButton(true)
+  }
   const handleMouseOut = () => {
-    setShowInstallButton(false);
-  };
+    setShowInstallButton(false)
+  }
 
   return (
     <>
@@ -34,7 +34,7 @@ function ChartViewer({ chart }: ChartViewerProps) {
         <span className="col-span-1 text-center">
           <button
             className={`bg-white border border-gray-300 px-2 p-1 rounded-md font-semibold ${
-              showInstallButton ? "visible" : "invisible"
+              showInstallButton ? 'visible' : 'invisible'
             }`}
             onClick={() => setShowInstallModal(true)}
           >
@@ -51,7 +51,7 @@ function ChartViewer({ chart }: ChartViewerProps) {
         />
       )}
     </>
-  );
+  )
 }
 
-export default ChartViewer;
+export default ChartViewer

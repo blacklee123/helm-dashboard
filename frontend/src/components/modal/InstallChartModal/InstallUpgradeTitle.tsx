@@ -1,9 +1,9 @@
-import { FC } from "react";
+import type { FC } from 'react'
 
 interface InstallUpgradeProps {
-  isUpgrade: boolean;
-  releaseValues: boolean;
-  chartName: string;
+  isUpgrade: boolean
+  releaseValues: boolean
+  chartName: string
 }
 
 export const InstallUpgradeTitle: FC<InstallUpgradeProps> = ({
@@ -11,7 +11,7 @@ export const InstallUpgradeTitle: FC<InstallUpgradeProps> = ({
   releaseValues,
   chartName,
 }) => {
-  const text = isUpgrade ? "Upgrade" : "Install";
+  const text = isUpgrade ? 'Upgrade' : 'Install'
 
   return (
     <div className="font-bold">
@@ -20,5 +20,5 @@ export const InstallUpgradeTitle: FC<InstallUpgradeProps> = ({
         <span className="text-green-700">{chartName}</span>
       )}
     </div>
-  );
-};
+  )
+}

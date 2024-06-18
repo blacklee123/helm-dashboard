@@ -1,19 +1,19 @@
-import { HD_RESOURCE_CONDITION_TYPE } from "../../API/releases";
-import { Tooltip } from "flowbite-react";
-import { ReleaseHealthStatus } from "../../data/types";
-import { v4 as uuidv4 } from "uuid";
+import { Tooltip } from 'flowbite-react'
+import { v4 as uuidv4 } from 'uuid'
+import { HD_RESOURCE_CONDITION_TYPE } from '../../API/releases'
+import type { ReleaseHealthStatus } from '../../data/types'
 
 interface Props {
-  statusData: ReleaseHealthStatus[];
+  statusData: ReleaseHealthStatus[]
 }
 
-const HealthStatus = ({ statusData }: Props) => {
+function HealthStatus({ statusData }: Props) {
   const statuses = statusData.map((item) => {
     for (let i = 0; i < item.status.conditions.length; i++) {
-      const cond = item.status.conditions[i];
+      const cond = item.status.conditions[i]
 
       if (cond.type !== HD_RESOURCE_CONDITION_TYPE) {
-        continue;
+        continue
       }
 
       return (
@@ -23,19 +23,20 @@ const HealthStatus = ({ statusData }: Props) => {
         >
           <span
             className={`inline-block ${
-              cond.status === "Healthy"
-                ? "bg-success"
-                : cond.status === "Progressing"
-                ? "bg-warning"
-                : "bg-danger"
+              cond.status === 'Healthy'
+                ? 'bg-success'
+                : cond.status === 'Progressing'
+                ? 'bg-warning'
+                : 'bg-danger'
             } w-2.5 h-2.5 rounded-sm`}
-          ></span>
+          >
+          </span>
         </Tooltip>
-      );
+      )
     }
-  });
+  })
 
-  return <div className="flex flex-wrap gap-1">{statuses}</div>;
-};
+  return <div className="flex flex-wrap gap-1">{statuses}</div>
+}
 
-export default HealthStatus;
+export default HealthStatus

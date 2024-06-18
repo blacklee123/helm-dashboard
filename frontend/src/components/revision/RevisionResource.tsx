@@ -1,31 +1,33 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import hljs from "highlight.js";
-import { RiExternalLinkLine } from "react-icons/ri";
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import hljs from 'highlight.js'
+import { RiExternalLinkLine } from 'react-icons/ri'
 
-import {
+import Drawer from 'react-modern-drawer'
+import type {
   StructuredResources,
+} from '../../API/releases'
+import {
   useGetResourceDescription,
   useGetResources,
-} from "../../API/releases";
-import closeIcon from "../../assets/close.png";
+} from '../../API/releases'
+import closeIcon from '../../assets/close.png'
 
-import Drawer from "react-modern-drawer";
-import "react-modern-drawer/dist/index.css";
+import 'react-modern-drawer/dist/index.css'
 
-import Button from "../Button";
-import Badge, { getBadgeType } from "../Badge";
-import Spinner from "../Spinner";
-import { Troubleshoot } from "../Troubleshoot";
+import Button from '../Button'
+import Badge, { getBadgeType } from '../Badge'
+import Spinner from '../Spinner'
+import { Troubleshoot } from '../Troubleshoot'
 
 interface Props {
-  isLatest: boolean;
+  isLatest: boolean
 }
 
 export default function RevisionResource({ isLatest }: Props) {
-  const { namespace = "", chart = "" } = useParams();
-  const { data: resources, isLoading } = useGetResources(namespace, chart);
-  const interestingResources = ["STATEFULSET", "DEAMONSET", "DEPLOYMENT"];
+  const { namespace = '', chart = '' } = useParams()
+  const { data: resources, isLoading } = useGetResources(namespace, chart)
+  const interestingResources = ['STATEFULSET', 'DEAMONSET', 'DEPLOYMENT']
 
   return (
     <table
@@ -41,61 +43,66 @@ export default function RevisionResource({ isLatest }: Props) {
           <td className="rounded"></td>
         </tr>
       </thead>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <tbody className="bg-white mt-4 h-8 rounded w-full">
-          {resources?.length ? (
-            resources
-              .sort(function (a, b) {
-                return (
-                  interestingResources.indexOf(a.kind.toUpperCase()) -
-                  interestingResources.indexOf(b.kind.toUpperCase())
-                );
-              })
-              .reverse()
-              .map((resource: StructuredResources) => (
-                <ResourceRow
-                  key={
+      {isLoading
+        ? (
+          <Spinner />
+          )
+        : (
+          <tbody className="bg-white mt-4 h-8 rounded w-full">
+            {resources?.length
+              ? (
+                  resources
+                    .sort((a, b) => {
+                      return (
+                        interestingResources.indexOf(a.kind.toUpperCase())
+                        - interestingResources.indexOf(b.kind.toUpperCase())
+                      )
+                    })
+                    .reverse()
+                    .map((resource: StructuredResources) => (
+                      <ResourceRow
+                        key={
                     resource.apiVersion + resource.kind + resource.metadata.name
                   }
-                  resource={resource}
-                  isLatest={isLatest}
-                />
-              ))
-          ) : (
-            <tr>
-              <div className="bg-white rounded shadow display-none no-charts mt-3 text-sm p-4">
-                Looks like you don&apos;t have any resources.{" "}
-                <RiExternalLinkLine className="ml-2 text-lg" />
-              </div>
-            </tr>
+                        resource={resource}
+                        isLatest={isLatest}
+                      />
+                    ))
+                )
+              : (
+                <tr>
+                  <div className="bg-white rounded shadow display-none no-charts mt-3 text-sm p-4">
+                    Looks like you don&apos;t have any resources.
+                    {' '}
+                    <RiExternalLinkLine className="ml-2 text-lg" />
+                  </div>
+                </tr>
+                )}
+          </tbody>
           )}
-        </tbody>
-      )}
     </table>
-  );
+  )
 }
 
-const ResourceRow = ({
+function ResourceRow({
   resource,
   isLatest,
 }: {
-  resource: StructuredResources;
-  isLatest: boolean;
-}) => {
+  resource: StructuredResources
+  isLatest: boolean
+}) {
   const {
     kind,
     metadata: { name },
     status: { conditions },
-  } = resource;
-  const [isOpen, setIsOpen] = useState(false);
+  } = resource
+  const [isOpen, setIsOpen] = useState(false)
   const toggleDrawer = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-  const { reason = "", status = "", message = "" } = conditions?.[0] || {};
+    setIsOpen(prevState => !prevState)
+  }
+  const { reason = '', status = '', message = '' } = conditions?.[0] || {}
 
-  const badgeType = getBadgeType(status);
+  const badgeType = getBadgeType(status)
 
   return (
     <>
@@ -108,19 +115,21 @@ const ResourceRow = ({
             {message && (
               <div className="text-gray-500 font-thin">{message}</div>
             )}
-            {(badgeType === "error" || badgeType === "warning") && (
+            {(badgeType === 'error' || badgeType === 'warning') && (
               <Troubleshoot />
             )}
           </div>
         </td>
         <td className="rounded">
-          {isLatest && reason !== "NotFound" ? (
-            <div className="flex justify-end items-center mr-36">
-              <Button className="px-1 text-xs" onClick={toggleDrawer}>
-                Describe
-              </Button>
-            </div>
-          ) : null}
+          {isLatest && reason !== 'NotFound'
+            ? (
+              <div className="flex justify-end items-center mr-36">
+                <Button className="px-1 text-xs" onClick={toggleDrawer}>
+                  Describe
+                </Button>
+              </div>
+              )
+            : null}
         </td>
       </tr>
       <Drawer
@@ -129,49 +138,51 @@ const ResourceRow = ({
         direction="right"
         className="min-w-[85%] "
       >
-        {isOpen ? (
-          <DescribeResource
-            resource={resource}
-            closeDrawer={() => {
-              setIsOpen(false);
-            }}
-          />
-        ) : null}
+        {isOpen
+          ? (
+            <DescribeResource
+              resource={resource}
+              closeDrawer={() => {
+                setIsOpen(false)
+              }}
+            />
+            )
+          : null}
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-const DescribeResource = ({
+function DescribeResource({
   resource,
   closeDrawer,
 }: {
-  resource: StructuredResources;
-  closeDrawer: () => void;
-}) => {
+  resource: StructuredResources
+  closeDrawer: () => void
+}) {
   const {
     kind,
     metadata: { name },
     status: { conditions },
-  } = resource;
+  } = resource
 
-  const { status, reason = "" } = conditions?.[0] || {};
-  const { namespace = "", chart = "" } = useParams();
+  const { status, reason = '' } = conditions?.[0] || {}
+  const { namespace = '', chart = '' } = useParams()
   const { data, isLoading } = useGetResourceDescription(
     resource.kind,
     namespace,
-    chart
-  );
-  const [yamlFormattedData, setYamlFormattedData] = useState("");
+    chart,
+  )
+  const [yamlFormattedData, setYamlFormattedData] = useState('')
 
   useEffect(() => {
     if (data) {
-      const val = hljs.highlight(data, { language: "yaml" }).value;
-      setYamlFormattedData(val);
+      const val = hljs.highlight(data, { language: 'yaml' }).value
+      setYamlFormattedData(val)
     }
-  }, [data]);
+  }, [data])
 
-  const badgeType = getBadgeType(status);
+  const badgeType = getBadgeType(status)
   return (
     <>
       <div className="flex justify-between px-3 py-4 border-b ">
@@ -205,19 +216,21 @@ const DescribeResource = ({
         </div>
       </div>
 
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="h-full overflow-y-auto ">
-          <pre
-            className="bg-white rounded p-4 font-medium text-base font-sf-mono"
-            style={{ overflow: "unset" }}
-            dangerouslySetInnerHTML={{
-              __html: yamlFormattedData,
-            }}
-          />
-        </div>
-      )}
+      {isLoading
+        ? (
+          <Spinner />
+          )
+        : (
+          <div className="h-full overflow-y-auto ">
+            <pre
+              className="bg-white rounded p-4 font-medium text-base font-sf-mono"
+              style={{ overflow: 'unset' }}
+              dangerouslySetInnerHTML={{
+                __html: yamlFormattedData,
+              }}
+            />
+          </div>
+          )}
     </>
-  );
-};
+  )
+}

@@ -1,41 +1,43 @@
-import { useMemo, useState } from "react";
-import Select, { components } from "react-select";
-import { BsCheck2 } from "react-icons/bs";
-import { NonEmptyArray } from "../../../data/types";
+import { useMemo, useState } from 'react'
+import Select, { components } from 'react-select'
+import { BsCheck2 } from 'react-icons/bs'
+import type { NonEmptyArray } from '../../../data/types'
 
 interface Version {
-  repository: string;
-  version: string;
-  isChartVersion: boolean;
-  urls: string[];
+  repository: string
+  version: string
+  isChartVersion: boolean
+  urls: string[]
 }
 
 export const VersionToInstall: React.FC<{
-  versions: NonEmptyArray<Version>;
+  versions: NonEmptyArray<Version>
   initialVersion?: {
-    repository?: string;
-    version?: string;
-  };
+    repository?: string
+    version?: string
+  }
   onSelectVersion: (props: {
-    version: string;
-    repository: string;
-    urls: string[];
-  }) => void;
-  showCurrentVersion: boolean;
+    version: string
+    repository: string
+    urls: string[]
+  }) => void
+  showCurrentVersion: boolean
 }> = ({ versions, onSelectVersion, showCurrentVersion, initialVersion }) => {
   const chartVersion = useMemo(
     () => versions.find(({ isChartVersion }) => isChartVersion)?.version,
-    [versions]
-  );
+    [versions],
+  )
 
-  const currentVersion =
-    chartVersion && showCurrentVersion ? (
-      <p className="text-xl text-muted ml-2">
-        {"(current version is "}
-        <span className="text-green-700">{`${chartVersion}`}</span>
-        {")"}
-      </p>
-    ) : null;
+  const currentVersion
+    = chartVersion && showCurrentVersion
+      ? (
+        <p className="text-xl text-muted ml-2">
+          {'(current version is '}
+          <span className="text-green-700">{`${chartVersion}`}</span>
+          )
+        </p>
+        )
+      : null
 
   // Prepare your options for react-select
   const options = useMemo(
@@ -45,24 +47,25 @@ export const VersionToInstall: React.FC<{
         label: `${repository} @ ${version}`,
         check: chartVersion === version,
       })) || [],
-    [chartVersion, versions]
-  );
-  const [selectedOption, setSelectedOption] =
-    useState<(typeof options)[number]>();
+    [chartVersion, versions],
+  )
+  const [selectedOption, setSelectedOption]
+    = useState<(typeof options)[number]>()
   const initOpt = useMemo(
     () =>
       options.find(
         ({ value }) =>
-          value.version === initialVersion?.version &&
-          value.repository === initialVersion?.repository
+          value.version === initialVersion?.version
+          && value.repository === initialVersion?.repository,
       ),
-    [options, initialVersion]
-  );
+    [options, initialVersion],
+  )
   return (
     <div className="flex gap-2 text-xl items-center">
       {versions?.length && (selectedOption || initOpt) ? (
         <>
-          Version to install:{" "}
+          Version to install:
+          {' '}
           <Select
             className="basic-single cursor-pointer min-w-[272px]"
             classNamePrefix="select"
@@ -72,8 +75,8 @@ export const VersionToInstall: React.FC<{
             options={options}
             onChange={(selectedOption) => {
               if (selectedOption) {
-                setSelectedOption(selectedOption);
-                onSelectVersion(selectedOption.value);
+                setSelectedOption(selectedOption)
+                onSelectVersion(selectedOption.value)
               }
             }}
             value={selectedOption ?? initOpt}
@@ -88,15 +91,13 @@ export const VersionToInstall: React.FC<{
               ),
               Option: ({ children, innerProps, data }) => (
                 <div
-                  className={
-                    "flex items-center py-2 pl-4 pr-2 text-green-700 hover:bg-blue-100"
-                  }
+                  className="flex items-center py-2 pl-4 pr-2 text-green-700 hover:bg-blue-100"
                   {...innerProps}
                 >
                   <div className="width-auto">{children}</div>
                   {data.check && showCurrentVersion && (
                     <BsCheck2
-                      fontWeight={"bold"}
+                      fontWeight="bold"
                       className="inline-block ml-2 text-green-700 font-bold"
                     />
                   )}
@@ -109,5 +110,5 @@ export const VersionToInstall: React.FC<{
 
       {currentVersion}
     </div>
-  );
-};
+  )
+}

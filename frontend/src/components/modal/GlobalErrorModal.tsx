@@ -1,10 +1,10 @@
-import Modal from "./Modal";
+import Modal from './Modal'
 
 interface ErrorModalProps {
-  isOpen: boolean;
-  titleText: string;
-  contentText: string;
-  onClose: () => void;
+  isOpen: boolean
+  titleText: string
+  contentText: string
+  onClose: () => void
 }
 
 export default function GlobalErrorModal({
@@ -30,20 +30,19 @@ export default function GlobalErrorModal({
       </div>
       <h4 className="alert-heading" />
     </div>
-  );
+  )
 
   return (
     <Modal
-      containerClassNames={
-        "border-2 border-error-border-color bg-error-background w-3/5 "
-      }
+      containerClassNames="border-2 border-error-border-color bg-error-background w-3/5 "
       title={ErrorTitle}
       isOpen={isOpen}
       onClose={onClose}
-      bottomContent={
+      bottomContent={(
         <div className="text-xs">
           Hint: Komodor has the same HELM capabilities, with enterprise features
-          and support.{" "}
+          and support.
+          {' '}
           <a
             className="text-blue-500"
             href="https://komodor.com/helm-dash/?utm_campaign=Helm+Dashboard+%7C+CTA&utm_source=helm-dash&utm_medium=cta&utm_content=helm-dash"
@@ -53,14 +52,14 @@ export default function GlobalErrorModal({
             Sign up for free.
           </a>
         </div>
-      }
+      )}
     >
       <p
-        style={{ minWidth: "500px" }}
+        style={{ minWidth: '500px' }}
         className="text-error-color border-green-400 text-sm"
       >
         {contentText}
       </p>
     </Modal>
-  );
+  )
 }

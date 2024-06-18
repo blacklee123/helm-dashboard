@@ -1,78 +1,80 @@
-import { BsTrash3, BsArrowRepeat } from "react-icons/bs";
-import { Chart, Repository } from "../../data/types";
-import ChartViewer from "./ChartViewer";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import apiService from "../../API/apiService";
-import Spinner from "../Spinner";
-import { useUpdateRepo } from "../../API/repositories";
-import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
+import { BsArrowRepeat, BsTrash3 } from 'react-icons/bs'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Spinner from '../Spinner'
+import { useUpdateRepo } from '../../API/repositories'
+import apiService from '../../API/apiService'
+import type { Chart, Repository } from '../../data/types'
+import { useAppContext } from '../../context/AppContext'
+import ChartViewer from './ChartViewer'
 
-type RepositoryViewerProps = {
-  repository: Repository | undefined;
-};
+interface RepositoryViewerProps {
+  repository: Repository | undefined
+}
 
 function RepositoryViewer({ repository }: RepositoryViewerProps) {
-  const [searchValue, setSearchValue] = useState("");
-  const [isRemoveLoading, setIsRemove] = useState(false);
-  const { setSelectedRepo, selectedRepo } = useAppContext();
-  const queryClient = useQueryClient();
+  const [searchValue, setSearchValue] = useState('')
+  const [isRemoveLoading, setIsRemove] = useState(false)
+  const { setSelectedRepo, selectedRepo } = useAppContext()
+  const queryClient = useQueryClient()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const { data: charts, isLoading } = useQuery<Chart[]>({
-    //@ts-ignore
-    queryKey: ["charts", repository?.name || ""],
+    // @ts-expect-error
+    queryKey: ['charts', repository?.name || ''],
     queryFn: apiService.getRepositoryCharts,
     refetchOnWindowFocus: false,
     enabled: !!repository?.name,
-  });
+  })
 
   useEffect(() => {
-    setSearchValue("");
-  }, [repository, selectedRepo]);
+    setSearchValue('')
+  }, [repository, selectedRepo])
 
-  const update = useUpdateRepo(repository?.name || "", {
+  const update = useUpdateRepo(repository?.name || '', {
     retry: false,
     onSuccess: () => {
-      window.location.reload();
+      window.location.reload()
     },
-  });
+  })
 
   const removeRepository = async () => {
-    //this is expected
-    //eslint-disable-next-line no-alert
-    if (confirm("Confirm removing repository?")) {
+    // this is expected
+    // eslint-disable-next-line no-alert
+    if (confirm('Confirm removing repository?')) {
       try {
-        setIsRemove(true);
-        const repo = repository?.name || "";
+        setIsRemove(true)
+        const repo = repository?.name || ''
         await apiService.fetchWithDefaults<void>(
           `./api/helm/repositories/${repo}`,
           {
-            method: "DELETE",
-          }
-        );
-        navigate("/repository", { replace: true });
-        setSelectedRepo("");
+            method: 'DELETE',
+          },
+        )
+        navigate('/repository', { replace: true })
+        setSelectedRepo('')
         queryClient.invalidateQueries({
-          queryKey: ["helm", "repositories"],
-        });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setIsRemove(false);
+          queryKey: ['helm', 'repositories'],
+        })
+      }
+      catch (error) {
+        console.error(error)
+      }
+      finally {
+        setIsRemove(false)
       }
     }
-  };
+  }
 
-  const numOfCharts = (charts as Chart[])?.length;
-  const showNoChartsAlert = Boolean(!numOfCharts && numOfCharts === 0);
+  const numOfCharts = (charts as Chart[])?.length
+  const showNoChartsAlert = Boolean(!numOfCharts && numOfCharts === 0)
   const filteredCharts = useMemo(() => {
     return (charts as Chart[])?.filter((ch: Chart) =>
-      ch.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-  }, [charts, searchValue]);
+      ch.name.toLowerCase().includes(searchValue.toLowerCase()),
+    )
+  }, [charts, searchValue])
 
   if (repository === undefined) {
     return (
@@ -80,7 +82,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
         Looks like you don&apos;t have any repositories installed. You can add
         one with the &quot;Add Repository&quot; button on the left side bar.
       </div>
-    );
+    )
   }
 
   return (
@@ -95,7 +97,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
           <div className="flex flex-row gap-2">
             <button
               onClick={() => {
-                update.mutate();
+                update.mutate()
               }}
             >
               <span className="h-8 flex items-center gap-2 bg-white border border-gray-300 px-5 py-1 text-sm font-semibold rounded">
@@ -105,7 +107,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
             </button>
             <button
               onClick={() => {
-                removeRepository();
+                removeRepository()
               }}
             >
               <span className="h-8 flex items-center gap-2 bg-white border border-gray-300 px-5 py-1 text-sm font-semibold rounded">
@@ -115,7 +117,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
             </button>
           </div>
           <input
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={e => setSearchValue(e.target.value)}
             value={searchValue}
             type="text"
             placeholder="Filter..."
@@ -124,7 +126,9 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
         </div>
       </div>
       <span className="text-dark text-sm bg-repository px-3 py-1 rounded-md self-start -mt-10">
-        URL: <span className="font-bold">{repository?.url}</span>
+        URL:
+        {' '}
+        <span className="font-bold">{repository?.url}</span>
       </span>
 
       <div className="bg-secondary grid grid-cols-10 text-xs font-bold p-2 px-4 mt-4 rounded-md">
@@ -133,13 +137,15 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
         <span className="col-span-1 text-center">VERSION</span>
         <span className="col-span-1 text-center"></span>
       </div>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        (filteredCharts || charts)?.map((chart: Chart) => (
-          <ChartViewer key={chart.name} chart={chart} />
-        ))
-      )}
+      {isLoading
+        ? (
+          <Spinner />
+          )
+        : (
+            (filteredCharts || charts)?.map((chart: Chart) => (
+              <ChartViewer key={chart.name} chart={chart} />
+            ))
+          )}
 
       {showNoChartsAlert && (
         <div className="bg-white rounded shadow display-none no-charts mt-3 text-sm p-4">
@@ -148,7 +154,7 @@ function RepositoryViewer({ repository }: RepositoryViewerProps) {
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default RepositoryViewer;
+export default RepositoryViewer

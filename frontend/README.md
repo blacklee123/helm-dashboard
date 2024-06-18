@@ -1,4 +1,5 @@
 # Helm dashboard React
+[![code style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
 
 Welcome to the frontend of the helm dashboard.
 We care most about keeping the project:
@@ -33,7 +34,6 @@ Please follow through the file structure to understand how things are structured
    - `npm i`
    - `npm run dev`
 4. with the default integration the dashboard should run on http://localhost:5173/
-
 
 # Component library
 

@@ -1,21 +1,21 @@
-import HeaderLogo from "../../assets/packges-header.svg";
-import { Release } from "../../data/types";
+import HeaderLogo from '../../assets/packges-header.svg'
+import type { Release } from '../../data/types'
 
-type InstalledPackagesHeaderProps = {
-  filteredReleases?: Release[];
-  setFilterKey: React.Dispatch<React.SetStateAction<string>>;
-  isLoading: boolean;
-};
+interface InstalledPackagesHeaderProps {
+  filteredReleases?: Release[]
+  setFilterKey: React.Dispatch<React.SetStateAction<string>>
+  isLoading: boolean
+}
 
 export default function InstalledPackagesHeader({
   filteredReleases,
   setFilterKey,
   isLoading,
 }: InstalledPackagesHeaderProps) {
-  const numOfPackages = filteredReleases?.length;
+  const numOfPackages = filteredReleases?.length
   const showNoPackageAlert = Boolean(
-    !isLoading && (numOfPackages === undefined || numOfPackages === 0)
-  );
+    !isLoading && (numOfPackages === undefined || numOfPackages === 0),
+  )
   return (
     <div className="custom-shadow rounded-t-md  ">
       <div className="flex items-center justify-between bg-white px-2 py-0.5 font-inter rounded-t-md ">
@@ -25,9 +25,11 @@ export default function InstalledPackagesHeader({
             alt="Helm-DashBoard"
             className="display-inline h-12 ml-3 mr-3 w-[28px] "
           />
-          <h2 className="display-inline font-bold text-base ">{`Installed Charts (${
-            numOfPackages || "0"
-          })`}</h2>
+          <h2 className="display-inline font-bold text-base ">
+            {`Installed Charts (${
+            numOfPackages || '0'
+          })`}
+          </h2>
         </div>
 
         <div className="w-1/3">
@@ -35,7 +37,7 @@ export default function InstalledPackagesHeader({
             className="border-installed-charts-filter  rounded p-1 text-sm w-11/12"
             placeholder="Filter..."
             type="text"
-            onChange={(ev) => setFilterKey(ev.target.value)}
+            onChange={ev => setFilterKey(ev.target.value)}
           />
         </div>
       </div>
@@ -47,5 +49,5 @@ export default function InstalledPackagesHeader({
         </div>
       )}
     </div>
-  );
+  )
 }

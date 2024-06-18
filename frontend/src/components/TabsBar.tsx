@@ -16,10 +16,10 @@
  */
 
 interface TabsBarProps {
-  tabs: Array<{ name: string; component: JSX.Element }>;
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-  setTabContent: (tab: string) => void;
+  tabs: Array<{ name: string, component: JSX.Element }>
+  activeTab: string
+  setActiveTab: (tab: string) => void
+  setTabContent: (tab: string) => void
 }
 
 export default function TabsBar({
@@ -30,12 +30,12 @@ export default function TabsBar({
 }: TabsBarProps): JSX.Element {
   return (
     <div className="relative">
-      {tabs.map((tab) => (
+      {tabs.map(tab => (
         <div
-          className={`tab ${activeTab === tab.name ? "active" : ""}`}
+          className={`tab ${activeTab === tab.name ? 'active' : ''}`}
           onClick={() => {
-            setActiveTab(tab.name);
-            setTabContent(tab.name);
+            setActiveTab(tab.name)
+            setTabContent(tab.name)
           }}
           key={tab.name}
         >
@@ -43,5 +43,5 @@ export default function TabsBar({
         </div>
       ))}
     </div>
-  );
+  )
 }

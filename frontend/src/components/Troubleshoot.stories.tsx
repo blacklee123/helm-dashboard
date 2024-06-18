@@ -1,15 +1,15 @@
-import { Meta, StoryFn } from "@storybook/react";
-import { Troubleshoot } from "./Troubleshoot";
+import type { Meta, StoryFn } from '@storybook/react'
+import { Troubleshoot } from './Troubleshoot'
 
 const meta = {
-  title: "Troubleshoot",
+  title: 'Troubleshoot',
   component: Troubleshoot,
-} satisfies Meta<typeof Troubleshoot>;
+} satisfies Meta<typeof Troubleshoot>
 
-export default meta;
+export default meta
 
-const Template: StoryFn<typeof Troubleshoot> = () => <Troubleshoot />;
+const Template: StoryFn<typeof Troubleshoot> = () => <Troubleshoot />
 
 export const Default = {
   render: Template,
-};
+}
