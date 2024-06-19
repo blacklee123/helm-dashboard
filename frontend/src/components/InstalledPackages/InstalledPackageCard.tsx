@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Button } from 'antd'
+
 import { BsArrowUpCircleFill, BsPlusCircleFill } from 'react-icons/bs'
 import { useQuery } from '@tanstack/react-query'
 import { getAge } from '../../timeUtils'
@@ -17,11 +19,13 @@ import useNavigateWithSearchParams from '../../hooks/useNavigateWithSearchParams
 import HealthStatus from './HealthStatus'
 
 interface InstalledPackageCardProps {
+  context: string
   release: Release
 }
 
 export default function InstalledPackageCard({
   release,
+  context,
 }: InstalledPackageCardProps) {
   const navigate = useNavigateWithSearchParams()
 
@@ -93,7 +97,7 @@ export default function InstalledPackageCard({
           <div className="col-span-3 font-bold text-xl mr-0.5 font-roboto-slab">
             {release.name}
           </div>
-          <div className="col-span-3">
+          <div className="col-span-2">
             <StatusLabel status={release.status} />
           </div>
           <div className="col-span-2 font-bold">{release.chart}</div>
@@ -105,6 +109,7 @@ export default function InstalledPackageCard({
             {release.namespace}
           </div>
           <div className="col-span-1 font-bold text-xs">{getAge(release)}</div>
+          <div className="col-span-1 font-bold text-xs">agent</div>
         </div>
         <div
           className="grid grid-cols-11 text-xs mt-3"
@@ -113,7 +118,7 @@ export default function InstalledPackageCard({
           <div className="col-span-3 h-12 line-clamp-3 mr-1">
             {release.description}
           </div>
-          <div className="col-span-3 mr-2">
+          <div className="col-span-2 mr-2">
             {statusData
               ? (
                 <HealthStatus statusData={statusData} />
@@ -148,6 +153,16 @@ export default function InstalledPackageCard({
           <div className="col-span-1 text-muted">REVISION</div>
           <div className="col-span-1 text-muted">NAMESPACE</div>
           <div className="col-span-1 text-muted">UPDATED</div>
+          <div className="col-span-1 text-muted">
+            <Button
+              size="small"
+              onClick={
+              () => window.open(`https://qaq-${context}.pandadastudio.net/${release.namespace}-${release.name}/`)
+            }
+            >
+              打开
+            </Button>
+          </div>
         </div>
       </div>
     </div>

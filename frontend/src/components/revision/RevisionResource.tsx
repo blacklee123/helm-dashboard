@@ -171,7 +171,7 @@ function DescribeResource({
   const { data, isLoading } = useGetResourceDescription(
     resource.kind,
     namespace,
-    chart,
+    name,
   )
   const [yamlFormattedData, setYamlFormattedData] = useState('')
 

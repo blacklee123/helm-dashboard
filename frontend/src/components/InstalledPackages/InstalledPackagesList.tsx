@@ -3,9 +3,11 @@ import InstalledPackageCard from './InstalledPackageCard'
 
 interface InstalledPackagesListProps {
   filteredReleases: Release[]
+  context: string
 }
 
 export default function InstalledPackagesList({
+  context,
   filteredReleases,
 }: InstalledPackagesListProps) {
   return (
@@ -15,6 +17,7 @@ export default function InstalledPackagesList({
           <InstalledPackageCard
             key={installedPackage.name}
             release={installedPackage}
+            context={context}
           />
         )
       })}

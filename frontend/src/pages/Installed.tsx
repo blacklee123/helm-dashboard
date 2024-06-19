@@ -95,7 +95,7 @@ function Installed() {
             </div>
             )
           : (
-            <InstalledPackagesList filteredReleases={filteredReleases} />
+            <InstalledPackagesList context={context || ''} filteredReleases={filteredReleases} />
             )}
       </div>
     </div>
